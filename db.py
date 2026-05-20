@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # Cоздаем таблицу для TO-DO листа
 def init_db():
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('data/data.db')
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS todos
                       (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +15,7 @@ def init_db():
     conn.close()
 
 def add_todo(text, done=False):
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('data/data.db')
     cursor = conn.cursor()
     cursor.execute("INSERT INTO todos (text, done) VALUES (?, ?)", (text, done))
     todo_id = cursor.lastrowid  # ← id новой задачи
@@ -24,7 +24,7 @@ def add_todo(text, done=False):
     return todo_id  # ← возвращаем
 
 def load_todos():
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('data/data.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM todos")
     todos = cursor.fetchall()
@@ -33,7 +33,7 @@ def load_todos():
 
 
 def toggle_todo(todo_id, done):
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('data/data.db')
     cursor = conn.cursor()
     cursor.execute("UPDATE todos SET done = ? WHERE id = ?", (done, todo_id))
     conn.commit()
@@ -41,7 +41,7 @@ def toggle_todo(todo_id, done):
 
 
 def init_streak():
-    conn = sqlite3.connect('streak.db')
+    conn = sqlite3.connect('data/streak.db')
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS streak
                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,7 +53,7 @@ def init_streak():
     conn.close()
 
 def update_streak():
-    conn = sqlite3.connect('streak.db')
+    conn = sqlite3.connect('data/streak.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT last_used, streak_count
                       FROM streak
